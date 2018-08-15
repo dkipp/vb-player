@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "build:electron": "vue-cli-service build:electron",
+    "serve:electron": "vue-cli-service serve:electron"
   },
   "dependencies": {
     "register-service-worker": "^1.0.0",
@@ -13,15 +15,21 @@
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
+    "vuetify": "^1.0.19",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-pwa": "^3.0.0",
     "@vue/cli-plugin-typescript": "^3.0.0",
     "@vue/cli-service": "^3.0.0",
+    "electron": "^2.0.2",
+    "material-design-icons-iconfont": "^3.0.3",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "typescript": "^3.0.0",
+    "vue-cli-plugin-electron-builder": "^1.0.0-beta.6",
+    "vue-cli-plugin-vuetify": "^0.1.6",
     "vue-template-compiler": "^2.5.17"
-  }
+  },
+  "main": "dist_electron/bundled/background.js"
 }
