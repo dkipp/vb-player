@@ -19,3 +19,13 @@ npm run build
 ```
 npm run lint
 ```
+
+### Serve Electron
+```
+npm run serve:electron
+```
+
+### Build Electron
+```
+npm run build:electron
+```
