@@ -78,7 +78,7 @@
       HelloWorld,
     },
   })
-  
+
   export default class App extends Vue {
     @Prop() private drawer!: boolean;
     @Prop({ default: false }) private fixed!: boolean;
@@ -89,7 +89,7 @@
       this.items = [
         {icon: 'video_library', title: 'item 4', route: '/'},
         {icon: 'video_library', title: 'item 2', route: '/about'},
-        // {icon: 'video_library', title: 'item 3'},
+        {icon: 'video_library', title: 'item 3', route: '/player'},
         // {icon: 'video_library', title: 'item 4'},
       ];
     }
