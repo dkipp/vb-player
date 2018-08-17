@@ -1,5 +1,7 @@
 <template>
   <div id="container">
+    <video src="../assets/vid/film.webm" controls></video>
+    <img src="../assets/img/premiereProCCTrackview.png" /><br/>
     <div id="trackview">
       <div>Toolbar</div>
       <div class="tracklist">
@@ -41,19 +43,22 @@
 </template>
 
 <script lang="ts">
-  import { Vue } from 'vue-property-decorator';
-  export default class Player extends Vue {}
+import { Vue } from 'vue-property-decorator';
+export default class Player extends Vue {}
 </script>
 
 
 <style scoped lang="scss">
 :root {
-      --track-width: 800px;
-    }
+  --track-width: 800px;
+  --background: #161616;
+  --pannel: #232323;
+}
 
 #container {
   margin: 1.5em;
 }
+
 #trackview {
   background: rgb(190, 176, 218);
   width: 70%;
@@ -66,33 +71,36 @@ fieldset {
   width: 30%;
   padding: 1em;
   text-align: left;
+  background: var(--pannel);
+  color: #acacac;
 }
-fieldset>input {
+
+fieldset > input {
   display: block;
 }
 
 .tracklist {
-      overflow-x: auto;
-      background: rgb(150, 150, 150);
-    }
+  overflow-x: auto;
+  background: rgb(150, 150, 150);
+}
 
-    .track {
-      position: relative;
-      background: rgb(228, 228, 228);
-      margin: 1px 0;
-      width: var(--track-width);
-      height: 1rem;
-    }
+.track {
+  position: relative;
+  background: rgb(228, 228, 228);
+  margin: 1px 0;
+  width: var(--track-width);
+  height: 1rem;
+}
 
-    .cue {
-      position: absolute;
-      display: block;
-      top: 0;
-      height: 1rem;
-      width: .1%;
-      left: 0;
-      background: rgb(131, 175, 201);
-      grid-column-end: span 1;
-      grid-row: 1 / 2;
-    }
+.cue {
+  position: absolute;
+  display: block;
+  top: 0;
+  height: 1rem;
+  width: 0.1%;
+  left: 0;
+  background: rgb(131, 175, 201);
+  grid-column-end: span 1;
+  grid-row: 1 / 2;
+}
 </style>

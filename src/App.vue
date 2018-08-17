@@ -1,71 +1,11 @@
 <template>
-  <v-app>
-    <v-navigation-drawer
-      dark
-      persistent
-      mini-variant
-      v-model="drawer"
-      enable-resize-watcher
-      fixed
-      app
-    >
-      <v-list dense>
-        
-        <v-list-tile
-          value="true"
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.route"
-        >
-          <v-list-tile-action>
-            <v-icon x-large v-html="item.icon"></v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-toolbar
-      dense
-      app
-    >
-      <!--_v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn icon>
-        <v-icon v-html="true ? 'chevron_right' : 'chevron_left'"></v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn icon >
-        <v-icon>remove</v-icon>
-      </v-btn-->
-      <v-toolbar-title v-text="title"></v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>person</v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-content>
-      <router-view/>
-    </v-content>
-    <!--v-navigation-drawer
-      temporary
-      :right="right"
-      v-model="rightDrawer"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-tile @click="right = !right">
-          <v-list-tile-action>
-            <v-icon>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer-->
-  </v-app>
+  <div id="app">
+    <div id="nav" class="panel"></div>
+    <div id="toolbar" class="panel"></div>
+    <div id="content" class="panel"></div>
+    <div id="right" class="panel"></div>
+    <div id="status" class="panel"></div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -100,10 +40,40 @@
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  display: grid;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  grid-template-columns: minmax(50px, min-content) 1fr minmax(250px, min-content);
+  grid-template-rows: 2em auto 2em;
+  grid-column-gap: 1px;
+  grid-row-gap: 1px;
+  color: #acacac;
+  background: #161616;
+}
+
+.panel{
+  background: #232323;
+}
+
+#content {
+  grid-area: 2/2/-2/-2;
+}
+
+#nav{
+  grid-area: 1/1/-1/1;
+}
+
+#right {
+  grid-area: 2/-2/-1/-1;
+}
+
+#status {
+  grid-area: -2/2/-1/-2;
+}
+
+#toolbar{
+  grid-area: 1/2/2/-2;
 }
 
 </style>
