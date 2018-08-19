@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav" class="panel"></div>
+    <div id="nav" class="panel">
+      <router-link to="/">Home</router-link>
+      <router-link to="/about">About</router-link>
+      <router-link to="/player">Player</router-link>
+    </div>
     <div id="toolbar" class="panel"></div>
-    <div id="content" class="panel"></div>
+    <router-view id="content" class="panel"></router-view>
     <div id="right" class="panel"></div>
     <div id="status" class="panel"></div>
   </div>
@@ -20,13 +24,13 @@
   })
 
   export default class App extends Vue {
+
     @Prop() private drawer!: boolean;
     @Prop({ default: false }) private fixed!: boolean;
-    @Prop() private items!: MenuItem[];
     @Prop({ default: 'App Title'}) private title!: string;
 
-    private mounted() {
-      this.items = [
+    get items() {
+      return [
         {icon: 'video_library', title: 'item 4', route: '/'},
         {icon: 'video_library', title: 'item 2', route: '/about'},
         {icon: 'video_library', title: 'item 3', route: '/player'},
@@ -62,6 +66,8 @@
 
 #nav{
   grid-area: 1/1/-1/1;
+  display: flex;
+  flex-direction: column;
 }
 
 #right {
@@ -73,7 +79,7 @@
 }
 
 #toolbar{
-  grid-area: 1/2/2/-2;
+  grid-area: 1/2/2/-1;
 }
 
 </style>

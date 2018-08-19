@@ -1,50 +1,160 @@
 <template>
-  <div id="container">
-    <video src="../assets/vid/film.webm" controls></video>
-    <img src="../assets/img/premiereProCCTrackview.png" /><br/>
-    <div id="trackview">
-      <div>Toolbar</div>
-      <div class="tracklist">
-        <div class="track">
-          <div class="cue" style="left:1%"></div>
-          <div class="cue" style="left:2%"></div>
-          <div class="cue" style="left:3%"></div>
-          <div class="cue" style="left:4%"></div>
-        </div>
-        <div class="track">
-          <div class="cue" style="left:5%"></div>
-          <div class="cue" style="left:6%"></div>
-          <div class="cue" style="left:7%"></div>
-          <div class="cue" style="left:8%"></div>
-        </div>
-        <div class="track"></div>
-      </div>
+  <div class="main-content">
+    <div id="container">
+      <video id="video" src="../assets/vid/film.webm" controls></video>
+      <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
+    <h3> {{ webpack }} </h3>
 
-    <fieldset>
-      <legend>Video settings</legend>
+    <input id="uploadInput" type="file" name="myFiles" @change="hashIt"><br/>
+    <div>Size: <span id="fileSize">0</span></div>
+    <div>SHA-256: <span id="fileHash">0</span></div>
 
-      <label for="duration">Duration (min)</label>
-      <input type="range" id="duration" name="duration" min="1" max="120" value="0"/>
-
-      <label for="currentTime">currentTime</label>
-      <input type="range" id="currentTime" name="currentTime" min="0" max="120" value="90" step="1" />
-    </fieldset>
-
-    <fieldset>
-      <legend>Trackview settings</legend>
-
-      <label for="duration">Zoom</label>
-      <input type="range" id="duration" name="duration" min="1" max="100" value="50"/>
-
-    </fieldset>
-
+  <div id="dropZone" @drop="dropHandler" @dragover="dragoverHandler"> Drop Zone</div>
   </div>
 </template>
 
-<script lang="ts">
-import { Vue } from 'vue-property-decorator';
-export default class Player extends Vue {}
+<script lang="js">
+  export default {
+        name: 'main-content',
+        data: () => ({
+            // reactive data property of the component.
+            webpack: 'Powered by webpack!',
+        }),
+        methods: {
+
+          addTrack(id) {
+            // needs to be a real element, to be able to remove it until there is an api removeTextTrack()
+            const trackElement = document.createElement('track');
+            trackElement.setAttribute('id', id);
+            trackElement.setAttribute('kind', 'captions');
+            trackElement.setAttribute('label', 'label');
+            trackElement.setAttribute('srcLang', 'en');
+
+            document.getElementById('video').appendChild(trackElement);
+
+            // trackElement.track options needs to be set after the element is added to the video
+            trackElement.track.mode = 'showing'; // config.mode;
+
+            trackElement.track.addEventListener('cuechange', this.onCuechange, false);
+
+            // console.log(trackElement.track);
+
+            return trackElement;
+          },
+
+          addDemoCues(track, cnt = 100) {
+            const t = document.querySelector('#video').textTracks[0];
+            for (let i = 0; i < cnt; i++) {
+              const pos = Math.random() * 31;
+              const cue = new VTTCue(pos, pos + 1, `pos: ${pos}`);
+              // console.log(cue);
+              t.addCue(cue);
+            }
+          },
+
+          setupTheMagic(e) {
+              // console.log();
+
+            if ( document.querySelector('#video').textTracks.length === 0) {
+              const t = this.addTrack('THE-track');
+
+            } else {
+              this.addDemoCues(document.querySelector('#video').textTracks[0], 10);
+              // console.log(document.querySelector('#video').textTracks[0]);
+            }
+          },
+
+          onCuechange(e) {
+            // console.log(e);
+          },
+
+          dropHandler(e) {
+            e.preventDefault();
+
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            this.handleFiles(files);
+          },
+
+          dragoverHandler(e) {
+            e.preventDefault();
+          },
+
+          handleFiles(files) {
+            ([...files]).forEach(this.handleFile);
+          },
+
+          handleFile(file) {
+            const reader = new FileReader();
+            console.log('handleFile', file);
+
+            reader.onload = (e) => {
+              const text = reader.result;
+              const promise = crypto.subtle.digest({name: 'SHA-256'},   this.convertStringToArrayBufferView(text));
+
+              promise.then( (result) => {
+                // console.log('result', result);
+                const hashValue = this.convertArrayBufferToHexaDecimal(result);
+                document.getElementById('fileHash').textContent = hashValue;
+              });
+            };
+
+            reader.readAsText(file);
+          },
+
+          hashIt(e) {
+            const nBytes = 0;
+            const oFiles = e.srcElement.files;
+            const nFiles = oFiles.length;
+            const reader = new FileReader();
+
+            // console.log('hashIt', oFiles);
+
+            reader.onload = () => {
+              const text = reader.result;
+
+              // console.log('reader.onload', text);
+
+              const promise = crypto.subtle.digest({name: 'SHA-256'},   this.convertStringToArrayBufferView(text));
+
+              promise.then( (result) => {
+                // console.log('result', result);
+                const hashValue = this.convertArrayBufferToHexaDecimal(result);
+                document.getElementById('fileHash').textContent = hashValue;
+              });
+            };
+
+            reader.readAsText(oFiles[0]);
+          },
+
+          convertArrayBufferToHexaDecimal(buffer) {
+            const data_view = new DataView(buffer);
+            let iii, len, hex = '', c;
+
+            for (iii = 0, len = data_view.byteLength; iii < len; iii += 1) {
+                c = data_view.getUint8(iii).toString(16);
+                if (c.length < 2) {
+                    c = '0' + c;
+                }
+
+                hex += c;
+            }
+
+            return hex;
+          },
+
+          convertStringToArrayBufferView(str) {
+            const bytes = new Uint8Array(str.length);
+            for (let iii = 0; iii < str.length; iii++) {
+                bytes[iii] = str.charCodeAt(iii);
+            }
+
+            return bytes;
+          },
+        },
+    };
+
 </script>
 
 
@@ -56,7 +166,8 @@ export default class Player extends Vue {}
 }
 
 #container {
-  margin: 1.5em;
+  display: flex;
+  flex-direction: column;
 }
 
 #trackview {
@@ -64,6 +175,12 @@ export default class Player extends Vue {}
   width: 70%;
   margin: 1em auto;
   padding: 2px;
+}
+
+#dropZone {
+  width: 200px;
+  height: 100px;
+  border: 5px solid #353475;
 }
 
 fieldset {
