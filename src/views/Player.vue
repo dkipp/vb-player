@@ -1,20 +1,34 @@
 <template>
   <div class="main-content">
     <div id="container">
-      <video id="video" src="../assets/vid/film.webm" controls></video>
+      <video id="video" controls></video>
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
-    <h3> {{ webpack }} </h3>
+    <h3>Video Data:</h3>
 
-    <input id="uploadInput" type="file" name="myFiles" @change="hashIt"><br/>
-    <div>Size: <span id="fileSize">0</span></div>
-    <div>SHA-256: <span id="fileHash">0</span></div>
+    <table>
+      <tr>
+        <td>duration</td>
+        <td>duration</td>
+      </tr>
+    </table>
 
-  <div id="dropZone" @drop="dropHandler" @dragover="dragoverHandler"> Drop Zone</div>
+    <div class="panel">
+      <input id="uploadInput" type="file" name="myFiles" @change="hashIt"><br/>
+      <div>Size: <span id="fileSize">0</span></div>
+      <div>SHA-256: <span id="fileHash">0</span></div>
+    </div>
+
+    <div id="dropZone" @drop="dropHandler" @dragover="dragoverHandler"> Drop Zone</div>
+    
+    <video-data></video-data>
   </div>
 </template>
 
 <script lang="js">
+
+  import {VideoData} from '@/components/VideoData.vue';
+
   export default {
         name: 'main-content',
         data: () => ({
@@ -87,10 +101,17 @@
 
           handleFile(file) {
             const reader = new FileReader();
-            console.log('handleFile', file);
+            console.log('handleFile.type', file.type);
+
+            if (file.type.match('video.*')) {
+              document.getElementById('video').src = window.URL.createObjectURL(file);
+            }
+
+            /*
 
             reader.onload = (e) => {
               const text = reader.result;
+
               const promise = crypto.subtle.digest({name: 'SHA-256'},   this.convertStringToArrayBufferView(text));
 
               promise.then( (result) => {
@@ -101,6 +122,7 @@
             };
 
             reader.readAsText(file);
+            */
           },
 
           hashIt(e) {
@@ -129,11 +151,14 @@
           },
 
           convertArrayBufferToHexaDecimal(buffer) {
-            const data_view = new DataView(buffer);
-            let iii, len, hex = '', c;
+            const dataView = new DataView(buffer);
+            let iii;
+            let len;
+            let hex = '';
+            let c;
 
-            for (iii = 0, len = data_view.byteLength; iii < len; iii += 1) {
-                c = data_view.getUint8(iii).toString(16);
+            for (iii = 0, len = dataView.byteLength; iii < len; iii += 1) {
+                c = dataView.getUint8(iii).toString(16);
                 if (c.length < 2) {
                     c = '0' + c;
                 }

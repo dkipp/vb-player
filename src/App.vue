@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <div id="nav" class="panel">
-      <router-link to="/">Home</router-link>
+      <i class="material-icons">face</i>
+      
+      <router-link to="/"><i class="material-icons">face</i></router-link>
       <router-link to="/about">About</router-link>
       <router-link to="/player">Player</router-link>
     </div>
@@ -58,6 +60,7 @@
 
 .panel{
   background: #232323;
+  _border: 1px solid rgb(13, 163, 20);
 }
 
 #content {
@@ -68,6 +71,11 @@
   grid-area: 1/1/-1/1;
   display: flex;
   flex-direction: column;
+  text-align: center;
+}
+
+#nav>a{
+  margin: .5em 0;
 }
 
 #right {
