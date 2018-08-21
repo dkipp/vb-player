@@ -24,7 +24,6 @@
       HelloWorld,
     },
   })
-
   export default class App extends Vue {
 
     @Prop() private drawer!: boolean;

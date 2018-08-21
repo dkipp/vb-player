@@ -1,7 +1,7 @@
 <template>
-  <div class="main-content">
+  <div class="player">
     <div id="container">
-      <video id="video" controls></video>
+      <video id="video" controls src="../assets/vid/film.webm"></video>
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
     <h3>Video Data:</h3>
@@ -21,22 +21,32 @@
 
     <div id="dropZone" @drop="dropHandler" @dragover="dragoverHandler"> Drop Zone</div>
     
-    <video-data></video-data>
+    <video-data :player="player"></video-data>
   </div>
 </template>
 
 <script lang="js">
 
-  import {VideoData} from '@/components/VideoData.vue';
+  import VideoData from '@/components/VideoData.vue';
 
   export default {
-        name: 'main-content',
+        components: {
+          VideoData,
+        },
         data: () => ({
             // reactive data property of the component.
             webpack: 'Powered by webpack!',
+            player: null,
         }),
+        mounted () {
+          this.$nextTick(  () => {
+            this.player = document.getElementById('video');
+            //this.player.src = "../assets/vid/film.webm";
+            console.log(this.player.src);
+           })
+        },
         methods: {
-
+          
           addTrack(id) {
             // needs to be a real element, to be able to remove it until there is an api removeTextTrack()
             const trackElement = document.createElement('track');
