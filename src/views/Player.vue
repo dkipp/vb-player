@@ -38,15 +38,17 @@
             webpack: 'Powered by webpack!',
             player: null,
         }),
-        mounted () {
+
+        mounted() {
           this.$nextTick(  () => {
             this.player = document.getElementById('video');
-            //this.player.src = "../assets/vid/film.webm";
+            // this.player.src = "../assets/vid/film.webm";
             console.log(this.player.src);
-           })
+           });
         },
+
         methods: {
-          
+
           addTrack(id) {
             // needs to be a real element, to be able to remove it until there is an api removeTextTrack()
             const trackElement = document.createElement('track');
