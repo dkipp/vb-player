@@ -70,7 +70,7 @@
 
       // this.trackElement.track.addEventListener('cuechange', this.onCuechange, false);
 
-      console.log(this.trackElement);
+      // console.log(this.trackElement);
     }
 
     public blub(e: Event) {

@@ -1,30 +1,31 @@
-{
-  "project": {
-    "name": "",
-    "date": 32874243,
-    "videos": [
-      {
-        "src": "",
-        "offset":0,
-        "main": true,
-        "fps": 30,
-      },
-    ],
-    "tracks": {
-      "cues": [
-        {
-          "type": "frame|range",
-          "frame":943875,
-          "start":230485,
-          "end": 4050,
-          "data": "",
+/* {  
+  "project":{  
+     "name": "",
+     "date": 32874243,
+     "videos": [  
+        {  
+           "src": "",
+           "offset": 0,
+           "main": true,
+           "fps": 30
 
-        },
-      ],
-      "filter": [
-        "filter"
-      ],
-    }
+        }
+     ],
+     "tracks": {  
+        "cues": [  
+           {  
+              "type": "frame|range",
+              "frame": 943875,
+              "start": 230485,
+              "end": 4050,
+              "data": ""
 
+           }
+        ],
+        "filter": [  
+           "filter"
+        ]
+     }
   }
 }
+*/

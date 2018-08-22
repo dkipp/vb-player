@@ -28,7 +28,7 @@
 <script lang="js">
 
   import VideoData from '@/components/VideoData.vue';
-  import json from '@/json/data.json';
+  // import json from '@/json/data.json';
 
   export default {
         components: {
@@ -44,7 +44,7 @@
           this.$nextTick(  () => {
             this.player = document.getElementById('video');
             // this.player.src = "../assets/vid/film.webm";
-            console.log(this.player.src);
+            // console.log(this.player.src);
            });
         },
 
@@ -114,7 +114,7 @@
 
           handleFile(file) {
             const reader = new FileReader();
-            console.log('handleFile.type', file.type);
+            // console.log('handleFile.type', file.type);
 
             if (file.type.match('video.*')) {
               document.getElementById('video').src = window.URL.createObjectURL(file);

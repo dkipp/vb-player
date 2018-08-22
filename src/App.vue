@@ -49,7 +49,7 @@
   box-sizing: border-box;
   width: 100vw;
   height: 100vh;
-  grid-template-columns: minmax(50px, min-content) 1fr minmax(250px, min-content);
+  grid-template-columns: minmax(50px, min-content) 1fr minmax(350px, min-content);
   grid-template-rows: 2em auto 2em;
   grid-column-gap: 2px;
   grid-row-gap: 2px;
