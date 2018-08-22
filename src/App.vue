@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div id="nav" class="panel">
-      <i class="material-icons">face</i>
+      <i id="logo" class="material-icons" >face</i>
       
-      <router-link to="/"><i class="material-icons">face</i></router-link>
-      <router-link to="/about">About</router-link>
-      <router-link to="/player">Player</router-link>
+      <router-link to="/"><i class="material-icons">home</i></router-link>
+      <router-link to="/about"><i class="material-icons">info</i></router-link>
+      <router-link to="/player"><i class="material-icons">video_library</i></router-link>
     </div>
     <div id="toolbar" class="panel"></div>
     <router-view id="content" class="panel"></router-view>
@@ -32,8 +32,8 @@
 
     get items() {
       return [
-        {icon: 'video_library', title: 'item 4', route: '/'},
-        {icon: 'video_library', title: 'item 2', route: '/about'},
+        {icon: 'home', title: 'item 4', route: '/'},
+        {icon: 'info', title: 'item 2', route: '/about'},
         {icon: 'video_library', title: 'item 3', route: '/player'},
         // {icon: 'video_library', title: 'item 4'},
       ];
@@ -51,8 +51,8 @@
   height: 100vh;
   grid-template-columns: minmax(50px, min-content) 1fr minmax(250px, min-content);
   grid-template-rows: 2em auto 2em;
-  grid-column-gap: 1px;
-  grid-row-gap: 1px;
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
   color: #acacac;
   background: #161616;
 }
@@ -73,8 +73,19 @@
   text-align: center;
 }
 
+#nav #logo{
+  color: #cc0b8c;
+  margin-top: .1em;
+  font-size: 36px;
+}
+
 #nav>a{
   margin: .5em 0;
+  color: #acacac;
+}
+
+#nav>a.router-link-exact-active {
+  color: #FFF;
 }
 
 #right {

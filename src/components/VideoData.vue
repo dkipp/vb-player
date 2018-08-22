@@ -20,7 +20,7 @@ export default class VideoData extends Vue {
       this.player.play();
     }
   }
-  
+
   public pause() {
     if ( this.player ) {
       this.player.pause();
