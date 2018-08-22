@@ -28,6 +28,7 @@
 <script lang="js">
 
   import VideoData from '@/components/VideoData.vue';
+  import json from '@/json/data.json';
 
   export default {
         components: {
