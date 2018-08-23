@@ -1,7 +1,7 @@
 <template>
   <div class="player">
     <div id="container">
-      <video id="video" controls src="../assets/vid/film.webm"></video>
+      <video id="video" ref="videoElementID" controls src="../assets/vid/film.webm"></video>
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
     <h3>Video Data:</h3>
@@ -21,7 +21,7 @@
 
     <div id="dropZone" @drop="dropHandler" @dragover="dragoverHandler"> Drop Zone</div>
     
-    <video-data :player="player"></video-data>
+    <video-data ref="videoData"></video-data>
   </div>
 </template>
 
@@ -34,6 +34,9 @@
         components: {
           VideoData,
         },
+        provide: {
+          videoElementID: 'video',
+        },
         data: () => ({
             // reactive data property of the component.
             webpack: 'Powered by webpack!',
@@ -42,7 +45,7 @@
 
         mounted() {
           this.$nextTick(  () => {
-            this.player = document.getElementById('video');
+            this.player = this.$refs.videoElementID;
             // this.player.src = "../assets/vid/film.webm";
             // console.log(this.player.src);
            });

@@ -2,7 +2,7 @@
   <div class="video-data">
     <table>
       <caption>{{caption}}</caption>
-      <thead> <!-- Passengers of flight 377 -->
+      <thead>
         <tr>
           <th>Event</th>
           <th>Value</th>
@@ -29,36 +29,38 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch, Inject } from 'vue-property-decorator';
 import { Event } from 'electron';
 
 @Component
 export default class VideoData extends Vue {
+  @Inject() videoElementID!: string;
+
   @Prop() private duration!: number;
   @Prop() private currentTime!: number;
   @Prop({default: 'Video Events'}) private caption!: string;
-  @Prop() private player!: HTMLVideoElement|null;
+  //@Prop() private player!: HTMLvideoElementID|null;
+
+  get videoElement(): HTMLVideoElement {
+    return <HTMLVideoElement>document.getElementById(this.videoElementID);
+  }
 
   public play() {
-    if (this.player) {
-      this.player.play();
-    }
+    this.videoElement.play();
   }
 
   public pause() {
-    if (this.player) {
-      this.player.pause();
-    }
+    this.videoElement.pause();
   }
-
+  /* 
   @Watch('player')
-  protected onPlayerChanged(val: HTMLVideoElement|null, oldVal: HTMLVideoElement|null) {
+  protected onPlayerChanged(val: HTMLvideoElementID|null, oldVal: HTMLvideoElementID|null) {
     if (val) {
-      this.bind(val);
+      // this.bind(val);
     }
   }
 
-  protected bind(player: HTMLVideoElement) {
+  protected bind(player: HTMLvideoElementID) {
     const mediaEvents = [
       'abort',
       'canplay',
@@ -103,6 +105,7 @@ export default class VideoData extends Vue {
   protected onTimeupdate(e: any) {
     // this.currentTime = e.target.currentTime;
   }
+  */
 }
 </script>
 
