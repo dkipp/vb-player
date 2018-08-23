@@ -5,23 +5,17 @@
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
     <h3>Video Data:</h3>
+    <video-data ref="videoData"></video-data>
 
-    <table>
-      <tr>
-        <td>duration</td>
-        <td>duration</td>
-      </tr>
-    </table>
-
-    <div class="panel">
+    <!--div class="panel">
       <input id="uploadInput" type="file" name="myFiles" @change="hashIt"><br/>
       <div>Size: <span id="fileSize">0</span></div>
       <div>SHA-256: <span id="fileHash">0</span></div>
     </div>
 
-    <div id="dropZone" @drop="dropHandler" @dragover="dragoverHandler"> Drop Zone</div>
+    <div id="dropZone" @drop="dropHandler" @dragover="dragoverHandler"> Drop Zone</div-->
     
-    <video-data ref="videoData"></video-data>
+    
   </div>
 </template>
 
@@ -33,9 +27,6 @@
   export default {
         components: {
           VideoData,
-        },
-        provide: {
-          videoElementID: 'video',
         },
         data: () => ({
             // reactive data property of the component.
@@ -49,6 +40,7 @@
             // this.player.src = "../assets/vid/film.webm";
             // console.log(this.player.src);
            });
+           this.$store.commit('setPlayer', this.$refs.videoElementID);
         },
 
         methods: {
@@ -78,13 +70,16 @@
             for (let i = 0; i < cnt; i++) {
               const pos = Math.random() * 31;
               const cue = new VTTCue(pos, pos + 1, `pos: ${pos}`);
-              // console.log(cue);
+              //console.log(cue);
               t.addCue(cue);
             }
           },
 
           setupTheMagic(e) {
-              // console.log();
+            
+            // this.$store.commit('setPlayer', this.$refs.videoElementID);
+            // document.querySelector('#video').src = 'http://dl3.webmfiles.org/elephants-dream.webm';
+            // console.log();
 
             if ( document.querySelector('#video').textTracks.length === 0) {
               const t = this.addTrack('THE-track');
@@ -93,10 +88,12 @@
               this.addDemoCues(document.querySelector('#video').textTracks[0], 10);
               // console.log(document.querySelector('#video').textTracks[0]);
             }
+            
           },
 
           onCuechange(e) {
-            // console.log(e);
+            //console.log(e);
+            this.$store.commit('activeCues', e.target.activeCues);
           },
 
           dropHandler(e) {

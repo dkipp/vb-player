@@ -1,7 +1,7 @@
 <template>
   <div class="video-data">
     <table>
-      <caption>{{caption}}</caption>
+      <caption>HI all</caption>
       <thead>
         <tr>
           <th>Event</th>
@@ -19,7 +19,13 @@
         </tr>
         <tr>
           <td>duration</td>
-          <td>{{duration}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr v-for="item in activeCues" :key="item.start">
+          <td>{{item.text}}</td>
+          <td>{{item.text}}</td>
         </tr>
       </tbody>
     </table>
@@ -34,33 +40,34 @@ import { Event } from 'electron';
 
 @Component
 export default class VideoData extends Vue {
-  @Inject() videoElementID!: string;
 
-  @Prop() private duration!: number;
-  @Prop() private currentTime!: number;
+  @Prop({default: 0}) private duration!: number;
+  @Prop({default: 0}) private currentTime!: number;
   @Prop({default: 'Video Events'}) private caption!: string;
-  //@Prop() private player!: HTMLvideoElementID|null;
 
-  get videoElement(): HTMLVideoElement {
-    return <HTMLVideoElement>document.getElementById(this.videoElementID);
+  get player() {
+    return this.$store.state.player;
+  }
+
+  get activeCues() {
+    return this.$store.state.activeCues || [];
   }
 
   public play() {
-    this.videoElement.play();
+    this.$store.getters.player.play();
   }
 
   public pause() {
-    this.videoElement.pause();
+    this.$store.getters.player.pause();
   }
-  /* 
+   
   @Watch('player')
-  protected onPlayerChanged(val: HTMLvideoElementID|null, oldVal: HTMLvideoElementID|null) {
-    if (val) {
-      // this.bind(val);
-    }
+  protected onPlayerChanged(val: any, oldVal: any) {
+    this.bind();
   }
 
-  protected bind(player: HTMLvideoElementID) {
+  
+  protected bind() {
     const mediaEvents = [
       'abort',
       'canplay',
@@ -90,12 +97,25 @@ export default class VideoData extends Vue {
 
     mediaEvents.forEach( (mediaEvent) => {
       // const handlerName = `on${ mediaEvent.charAt(0).toUpperCase() + mediaEvent.substring(1) }`;
-      player.addEventListener(mediaEvent, this.onMediaEvent );
+      this.player.addEventListener(mediaEvent, this.onMediaEvent );
     });
   }
 
   protected onMediaEvent(e: any) {
-    console.log(e);
+
+    switch(e.type){
+
+      case 'durationchange':
+        this.duration = this.player.duration;
+        break;
+
+      case 'timeupdate':
+        this.currentTime = this.player.currentTime;
+        break;
+      
+      default:
+        console.log(e);
+    }
   }
 
   protected onDurationchange(e: any) {
@@ -105,7 +125,7 @@ export default class VideoData extends Vue {
   protected onTimeupdate(e: any) {
     // this.currentTime = e.target.currentTime;
   }
-  */
+
 }
 </script>
 
