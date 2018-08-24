@@ -1,38 +1,23 @@
 <template>
-    <span>{{timecode}}</span>
+  <span>{{timecode}}</span>
 </template>
 
-<script lang="js">
-import { Vue, Component, Prop, Watch, Inject } from 'vue-property-decorator';
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
-export default {
-    data() {
-        return {
-            // reactive data property of the component.
-            seconds: 0.34,
-        };
-    },
-
-    computed: {
-        timecode() {
-            return this.seconds;
-            const d = new Date(0);
-            d.setSeconds(this.seconds);
-            return d.toTimeString();
-        },
-    },
-};
-
-/*
 @Component
 export default class TimeCode extends Vue {
 
   @Prop({default: 0}) public seconds!: number;
 
   get timecode() {
-    const t = Timecode(new Date(this.seconds * 1000) );
-    return t.toString();
+    return this.formatSeconds(this.seconds);
+  }
+
+  public formatSeconds(sec: number): string {
+    const rSec = Math.round( sec * 1000 );
+    // strlen may vary (24||27 chars), counting from the end solves it.
+    return new Date(rSec).toISOString().slice(-13, -1);
   }
 }
-*/
 </script>
