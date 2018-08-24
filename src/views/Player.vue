@@ -1,7 +1,8 @@
 <template>
   <div class="player">
     <div id="container">
-      <video :id="playerUniqId" ref="videoElementID" controls src="../assets/vid/film.webm"></video>
+      <video :id="playerUniqId" ref="videoElementID" controls src="../assets/vid/film.webm" @wheel="skrubb"></video>
+      <vue-slider ref="slider" v-model="sliderValue"></vue-slider>
       <video-controls></video-controls>
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
@@ -25,17 +26,20 @@
 
   import VideoControls from '@/components/VideoControls.vue';
   import TimeCode from '@/components/TimeCode.vue';
+  import VueSlider from 'vue-slider-component';
   // import json from '@/json/data.json';
 
   export default {
         components: {
           VideoControls,
           TimeCode,
+          VueSlider,
         },
         data: () => ({
             // reactive data property of the component.
             webpack: 'Powered by webpack!',
             currentTime: 0,
+            sliderValue: 1,
         }),
 
         computed: {
@@ -124,6 +128,11 @@
           _onTimeUpdate(e) {
             this.currentTime = this.player.currentTime;
             this.progress = (this.player.currentTime / this.player.duration) * 100;
+          },
+
+          skrubb(e) {
+            // console.log(e);
+            this.player.currentTime += (e.deltaY * (1 / 30) );
           },
 
           handleFile(file) {

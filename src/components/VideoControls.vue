@@ -1,12 +1,14 @@
 <template>
   <div class="root">
+    <button @click="skippFrames(-20)"><i class="material-icons">fast_rewind</i></button>
+    <button @click="prevFrame"><i class="material-icons">skip_previous</i></button>
+    
     <button @click="play"><i class="material-icons">play_arrow</i></button>
     <button @click="pause"><i class="material-icons">pause</i></button>
-    <button><i class="material-icons">stop</i></button>
-    <button><i class="material-icons">fast_forward</i></button>
-    <button><i class="material-icons">fast_rewind</i></button>
-    <button><i class="material-icons">skip_previous</i></button>
-    <button><i class="material-icons">skip_next</i></button>
+    <!--button><i class="material-icons">stop</i></button-->
+    
+    <button @click="nextFrame"><i class="material-icons">skip_next</i></button>
+    <button @click="skippFrames(20)"><i class="material-icons">fast_forward</i></button>
   </div>
 </template>
 
@@ -35,6 +37,21 @@ export default class VideoControls extends Vue {
 
   public pause() {
     this.$store.getters.player.pause();
+  }
+
+  public nextFrame() {
+    this.pause();
+    this.$store.getters.player.currentTime += (1 / 30);
+  }
+
+  public prevFrame() {
+    this.pause();
+    this.$store.getters.player.currentTime -= (1 / 30);
+  }
+
+  public skippFrames(cnt = 1) {
+    this.pause();
+    this.$store.getters.player.currentTime += (1 / 30) * cnt;
   }
 
   @Watch('player')
@@ -112,7 +129,8 @@ export default class VideoControls extends Vue {
 <style scoped lang="scss">
 
 .root{
-  border-top: 2px solid #161616;
+  _border-top: 2px solid #161616;
+  margin-top: .5em;
   border-bottom: 2px solid #161616;
   text-align: center;
 }
