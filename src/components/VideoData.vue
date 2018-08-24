@@ -36,14 +36,14 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch, Inject } from 'vue-property-decorator';
-import { Event } from 'electron';
+// import { Event } from 'electron';
 
 @Component
 export default class VideoData extends Vue {
 
-  @Prop({default: 0}) private duration!: number;
-  @Prop({default: 0}) private currentTime!: number;
-  @Prop({default: 'Video Events'}) private caption!: string;
+  @Prop({default: 0}) public duration!: number;
+  @Prop({default: 0}) public currentTime!: number;
+  @Prop({default: 'Video Events'}) public caption!: string;
 
   get player() {
     return this.$store.state.player;
@@ -60,13 +60,13 @@ export default class VideoData extends Vue {
   public pause() {
     this.$store.getters.player.pause();
   }
-   
+
   @Watch('player')
   protected onPlayerChanged(val: any, oldVal: any) {
     this.bind();
   }
 
-  
+
   protected bind() {
     const mediaEvents = [
       'abort',
@@ -103,18 +103,21 @@ export default class VideoData extends Vue {
 
   protected onMediaEvent(e: any) {
 
-    switch(e.type){
+    const p = this.player;
+
+    switch (e.type) {
 
       case 'durationchange':
-        this.duration = this.player.duration;
+        this.duration = p.duration;
+        // console.log(e);
         break;
 
       case 'timeupdate':
         this.currentTime = this.player.currentTime;
         break;
-      
+
       default:
-        console.log(e);
+        // console.log(e);
     }
   }
 

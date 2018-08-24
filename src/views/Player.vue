@@ -1,11 +1,12 @@
 <template>
   <div class="player">
     <div id="container">
-      <video id="video" ref="videoElementID" controls src="../assets/vid/film.webm"></video>
+      <video :id="playerUniqId" ref="videoElementID" controls src="../assets/vid/film.webm"></video>
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
     <h3>Video Data:</h3>
     <video-data ref="videoData"></video-data>
+    <time-code :seconds="currentTime"></time-code>
 
     <!--div class="panel">
       <input id="uploadInput" type="file" name="myFiles" @change="hashIt"><br/>
@@ -22,25 +23,32 @@
 <script lang="js">
 
   import VideoData from '@/components/VideoData.vue';
+  import TimeCode from '@/components/TimeCode.vue';
   // import json from '@/json/data.json';
 
   export default {
         components: {
           VideoData,
+          TimeCode,
         },
         data: () => ({
             // reactive data property of the component.
             webpack: 'Powered by webpack!',
-            player: null,
+            currentTime: 0,
         }),
 
+        computed: {
+          playerUniqId() {
+            return `audio-player${this._uid}`;
+          },
+        },
+
         mounted() {
-          this.$nextTick(  () => {
-            this.player = this.$refs.videoElementID;
-            // this.player.src = "../assets/vid/film.webm";
-            // console.log(this.player.src);
-           });
-           this.$store.commit('setPlayer', this.$refs.videoElementID);
+          this.player = document.getElementById(this.playerUniqId);
+
+          this.player.addEventListener('timeupdate', this._onTimeUpdate);
+
+          this.$store.commit('setPlayer', this.player);
         },
 
         methods: {
@@ -70,13 +78,13 @@
             for (let i = 0; i < cnt; i++) {
               const pos = Math.random() * 31;
               const cue = new VTTCue(pos, pos + 1, `pos: ${pos}`);
-              //console.log(cue);
+              // console.log(cue);
               t.addCue(cue);
             }
           },
 
           setupTheMagic(e) {
-            
+
             // this.$store.commit('setPlayer', this.$refs.videoElementID);
             // document.querySelector('#video').src = 'http://dl3.webmfiles.org/elephants-dream.webm';
             // console.log();
@@ -88,11 +96,11 @@
               this.addDemoCues(document.querySelector('#video').textTracks[0], 10);
               // console.log(document.querySelector('#video').textTracks[0]);
             }
-            
+
           },
 
           onCuechange(e) {
-            //console.log(e);
+            // console.log(e);
             this.$store.commit('activeCues', e.target.activeCues);
           },
 
@@ -110,6 +118,11 @@
 
           handleFiles(files) {
             ([...files]).forEach(this.handleFile);
+          },
+
+          _onTimeUpdate(e) {
+            this.currentTime = this.player.currentTime;
+            this.progress = (this.player.currentTime / this.player.duration) * 100;
           },
 
           handleFile(file) {
