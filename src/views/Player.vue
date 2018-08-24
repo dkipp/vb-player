@@ -2,10 +2,11 @@
   <div class="player">
     <div id="container">
       <video :id="playerUniqId" ref="videoElementID" controls src="../assets/vid/film.webm"></video>
+      <video-controls></video-controls>
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
     <h3>Video Data:</h3>
-    <video-data ref="videoData"></video-data>
+    <!--video-data ref="videoData"></video-data-->
     <time-code :seconds="currentTime"></time-code>
 
     <!--div class="panel">
@@ -22,13 +23,13 @@
 
 <script lang="js">
 
-  import VideoData from '@/components/VideoData.vue';
+  import VideoControls from '@/components/VideoControls.vue';
   import TimeCode from '@/components/TimeCode.vue';
   // import json from '@/json/data.json';
 
   export default {
         components: {
-          VideoData,
+          VideoControls,
           TimeCode,
         },
         data: () => ({
@@ -215,6 +216,8 @@
   --background: #161616;
   --pannel: #232323;
 }
+
+
 
 #container {
   display: flex;
