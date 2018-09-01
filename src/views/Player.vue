@@ -1,8 +1,9 @@
 <template>
   <div class="player">
     <div id="container">
-      <video :id="playerUniqId" ref="videoElementID" controls src="../assets/vid/film.webm" @wheel="skrubb"></video>
-      <vue-slider ref="slider" v-model="sliderValue"></vue-slider>
+      <video :id="playerUniqId" ref="videoElementID" src="../assets/vid/film.webm" @wheel="skrubb"></video>
+      <br />
+      <vue-slider ref="slider" :height="5" :dot-size="13" v-model="sliderValue" @drag-start="onDragStart" @drag-end="onDragEnd" :tooltip="false"></vue-slider>
       <video-controls></video-controls>
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
     </div>
@@ -39,7 +40,9 @@
             // reactive data property of the component.
             webpack: 'Powered by webpack!',
             currentTime: 0,
-            sliderValue: 1,
+            sliderValue: 0,
+            duration: 0,
+            scrubbing: false,
         }),
 
         computed: {
@@ -48,10 +51,20 @@
           },
         },
 
+        watch: {
+          sliderValue: function (val) {
+            console.log(val);
+            if(this.scrubbing){
+              this.player.currentTime = (val/100.0) * this.player.duration;
+            }
+          },
+        },
+
         mounted() {
           this.player = document.getElementById(this.playerUniqId);
 
           this.player.addEventListener('timeupdate', this._onTimeUpdate);
+          this.player.addEventListener('durationchange', this._onDurationchange);
 
           this.$store.commit('setPlayer', this.player);
         },
@@ -121,18 +134,29 @@
             e.preventDefault();
           },
 
+          onDragStart(e) {
+            this.scrubbing = true;
+          },
+
+          onDragEnd(e) {
+            this.scrubbing = false; // console.log(e);
+          },
+
           handleFiles(files) {
             ([...files]).forEach(this.handleFile);
           },
 
           _onTimeUpdate(e) {
             this.currentTime = this.player.currentTime;
-            this.progress = (this.player.currentTime / this.player.duration) * 100;
+            this.sliderValue = (this.player.currentTime / this.player.duration) * 100;
+          },
+          _onDurationchange(e) {
+            this.duration = this.player.duration;
           },
 
           skrubb(e) {
             // console.log(e);
-            this.player.currentTime += (e.deltaY * (1 / 30) );
+            this.player.currentTime += (e.deltaY / Math.abs(e.deltaY) * 0.5 );
           },
 
           handleFile(file) {

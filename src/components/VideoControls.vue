@@ -3,8 +3,8 @@
     <button @click="skippFrames(-20)"><i class="material-icons">fast_rewind</i></button>
     <button @click="prevFrame"><i class="material-icons">skip_previous</i></button>
     
-    <button @click="play"><i class="material-icons">play_arrow</i></button>
-    <button @click="pause"><i class="material-icons">pause</i></button>
+    <button v-if="playing" @click="pause"><i class="material-icons" style="font-size:34px">pause</i></button>
+    <button v-else @click="play"><i class="material-icons" style="font-size:34px">play_arrow</i></button>
     <!--button><i class="material-icons">stop</i></button-->
     
     <button @click="nextFrame"><i class="material-icons">skip_next</i></button>
@@ -19,8 +19,10 @@ import { Vue, Component, Prop, Watch, Inject } from 'vue-property-decorator';
 @Component
 export default class VideoControls extends Vue {
 
-  @Prop({default: 0}) public duration!: number;
-  @Prop({default: 0}) public currentTime!: number;
+  public duration: number = 0;
+  public currentTime: number = 0;
+  public playing: boolean = false;
+  
   @Prop({default: 'Video Events'}) public caption!: string;
 
   get player() {
@@ -56,7 +58,7 @@ export default class VideoControls extends Vue {
 
   @Watch('player')
   protected onPlayerChanged(val: any, oldVal: any) {
-    // this.bind();
+    this.bind();
   }
 
 
@@ -109,6 +111,14 @@ export default class VideoControls extends Vue {
         this.currentTime = this.player.currentTime;
         break;
 
+      case 'pause':
+        this.playing = false;
+        break;
+
+      case 'play':
+        this.playing = true;
+        break;
+
       default:
         // console.log(e);
     }
@@ -133,6 +143,9 @@ export default class VideoControls extends Vue {
   margin-top: .5em;
   border-bottom: 2px solid #161616;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 table {
