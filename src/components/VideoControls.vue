@@ -14,6 +14,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch, Inject } from 'vue-property-decorator';
+
 // import { Event } from 'electron';
 
 @Component
@@ -22,7 +23,7 @@ export default class VideoControls extends Vue {
   public duration: number = 0;
   public currentTime: number = 0;
   public playing: boolean = false;
-  
+
   @Prop({default: 'Video Events'}) public caption!: string;
 
   get player() {

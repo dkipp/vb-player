@@ -9,7 +9,9 @@
     </div>
     <div id="toolbar" class="panel"></div>
     <router-view id="content" class="panel"></router-view>
-    <div id="right" class="panel"></div>
+    <div id="right" class="panel">
+      <user-detail></user-detail>
+    </div>
     <div id="status" class="panel"></div>
   </div>
 </template>
@@ -17,11 +19,13 @@
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator';
   import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-  import { MenuItem } from '@/interfaces';
+  import UserDetail from '@/components/UserDetail.vue';
+  import { MenuItem } from '@/types';
 
   @Component({
     components: {
       HelloWorld,
+      UserDetail,
     },
   })
   export default class App extends Vue {

@@ -6,6 +6,7 @@
       <vue-slider ref="slider" :height="5" :dot-size="13" v-model="sliderValue" @drag-start="onDragStart" @drag-end="onDragEnd" :tooltip="false"></vue-slider>
       <video-controls></video-controls>
       <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
+      <track-view></track-view>
     </div>
     <h3>Video Data:</h3>
     <!--video-data ref="videoData"></video-data-->
@@ -27,6 +28,7 @@
 
   import VideoControls from '@/components/VideoControls.vue';
   import TimeCode from '@/components/TimeCode.vue';
+  import TrackView from '@/components/TrackView.vue';
   import VueSlider from 'vue-slider-component';
   // import json from '@/json/data.json';
 
@@ -35,6 +37,7 @@
           VideoControls,
           TimeCode,
           VueSlider,
+          TrackView,
         },
         data: () => ({
             // reactive data property of the component.
@@ -52,10 +55,11 @@
         },
 
         watch: {
-          sliderValue: function (val) {
+          sliderValue(val) {
+            // tslint:disable-next-line:no-console
             console.log(val);
-            if(this.scrubbing){
-              this.player.currentTime = (val/100.0) * this.player.duration;
+            if (this.scrubbing) {
+              this.player.currentTime = (val / 100.0) * this.player.duration;
             }
           },
         },
@@ -247,7 +251,8 @@
 :root {
   --track-width: 800px;
   --background: #161616;
-  --pannel: #232323;
+  --pannelBackgroundColor: #232323;
+  --heighlightColor: #3385EF;
 }
 
 
@@ -275,7 +280,7 @@ fieldset {
   width: 30%;
   padding: 1em;
   text-align: left;
-  background: var(--pannel);
+  background: var(--pannelBackgroundColor);
   color: #acacac;
 }
 
