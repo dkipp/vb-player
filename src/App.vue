@@ -10,7 +10,7 @@
     <div id="toolbar" class="panel"></div>
     <router-view id="content" class="panel"></router-view>
     <div id="right" class="panel">
-      <user-detail></user-detail>
+      <active-cues></active-cues>
     </div>
     <div id="status" class="panel"></div>
   </div>
@@ -19,13 +19,13 @@
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator';
   import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-  import UserDetail from '@/components/UserDetail.vue';
+  import ActiveCues from '@/components/ActiveCues.vue';
   import { MenuItem } from '@/types';
 
   @Component({
     components: {
       HelloWorld,
-      UserDetail,
+      ActiveCues,
     },
   })
   export default class App extends Vue {

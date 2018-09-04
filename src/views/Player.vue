@@ -1,11 +1,13 @@
 <template>
   <div class="player">
     <div id="container">
-      <video :id="playerUniqId" ref="videoElementID" src="../assets/vid/film.webm" @wheel="skrubb"></video>
+      <!--video :id="playerUniqId" ref="videoElementID" src="../assets/vid/film.webm" @wheel="skrubb"></video-->
+      <team-player /> 
       <br />
-      <vue-slider ref="slider" :height="5" :dot-size="13" v-model="sliderValue" @drag-start="onDragStart" @drag-end="onDragEnd" :tooltip="false"></vue-slider>
       <video-controls></video-controls>
-      <img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/>
+      <vue-slider ref="slider" :height="5" :dot-size="13" v-model="sliderValue" @drag-start="onDragStart" @drag-end="onDragEnd" :tooltip="false"></vue-slider>
+      
+      <!--img src="../assets/img/premiereProCCTrackview.png" @click="setupTheMagic" /><br/-->
       <track-view></track-view>
     </div>
     <h3>Video Data:</h3>
@@ -29,6 +31,7 @@
   import VideoControls from '@/components/VideoControls.vue';
   import TimeCode from '@/components/TimeCode.vue';
   import TrackView from '@/components/TrackView.vue';
+  import TeamPlayer from '@/components/TeamPlayer.vue';
   import VueSlider from 'vue-slider-component';
   // import json from '@/json/data.json';
 
@@ -38,6 +41,7 @@
           TimeCode,
           VueSlider,
           TrackView,
+          TeamPlayer,
         },
         data: () => ({
             // reactive data property of the component.
@@ -57,7 +61,7 @@
         watch: {
           sliderValue(val) {
             // tslint:disable-next-line:no-console
-            console.log(val);
+            // console.log(val);
             if (this.scrubbing) {
               this.player.currentTime = (val / 100.0) * this.player.duration;
             }
@@ -65,12 +69,14 @@
         },
 
         mounted() {
+          /*
           this.player = document.getElementById(this.playerUniqId);
 
           this.player.addEventListener('timeupdate', this._onTimeUpdate);
           this.player.addEventListener('durationchange', this._onDurationchange);
 
           this.$store.commit('setPlayer', this.player);
+          */
         },
 
         methods: {

@@ -3,6 +3,7 @@ import Vuex, { StoreOptions, Module } from 'vuex';
 
 import { RootState } from './types';
 import { profile } from './profile/index';
+import { cues } from './cues/index';
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ const store: StoreOptions<RootState> = {
   },
   modules: {
     profile,
+    cues,
   },
   /*
   state: {
