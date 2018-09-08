@@ -1,10 +1,6 @@
 <template>
     <div class="container">
-
-
-        <div v-for="cueId in cues.currentCueIds" :key="cueId" style="margin:1em 0">
-            <span>{{cueId}}</span>
-        </div>
+        <tag-editor v-for="tagId in tagging.currentTagIds" :key="tagId" :tag-id="tagId" style="margin:1em 0" />
     </div>
 </template>
 
@@ -12,20 +8,16 @@
 
     import { Vue, Component, Watch } from 'vue-property-decorator';
     import { State, Action, Getter } from 'vuex-class';
-    import { CuesState, Cue } from '../vuex/cues/types';
-    // const namespace: string = 'cues';
+    import { TaggingState, Tag } from '../store/tagging/types';
 
-    @Component
+    import TagEditor from '@/components/TagEditor.vue';
+
+    @Component({
+        components: {
+            TagEditor,
+        },
+    })
     export default class ActiveCues extends Vue {
-        @State('cues') public cues!: CuesState;
-        @Getter('activeTrackCues', { namespace: 'cues' }) public activeTrackCues!: any;
-
-        /*
-        @Watch('activeTrackCues')
-        public onActiveTrackCuesChanged(val: string, oldVal: string) {
-          // console.log('onActiveTrackCuesChanged');
-        }
-        */
-
+        @State('tagging') public tagging!: TaggingState;
     }
 </script>

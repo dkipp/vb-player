@@ -3,7 +3,7 @@ import Vuex, { StoreOptions, Module } from 'vuex';
 
 import { RootState } from './types';
 import { profile } from './profile/index';
-import { cues } from './cues/index';
+import { tagging } from './tagging/index';
 
 Vue.use(Vuex);
 
@@ -14,31 +14,8 @@ const store: StoreOptions<RootState> = {
   },
   modules: {
     profile,
-    cues,
+    tagging,
   },
-  /*
-  state: {
-    count: 0,
-    player: null,
-    activeCues: [],
-  },
-  mutations: {
-    setPlayer(state, val) {
-      state.player = val;
-    },
-    setCue(state, val) {
-      state.activeCues = val;
-    },
-  },
-  actions: {
-
-  },
-  getters: {
-    player: (state) => {
-      return state.player;
-    },
-  },
-  */
 };
 
 export default new Vuex.Store<RootState>(store);

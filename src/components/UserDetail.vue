@@ -19,7 +19,7 @@
     import Vue from 'vue';
     import Component from 'vue-class-component';
     import { State, Action, Getter } from 'vuex-class';
-    import { ProfileState, User } from '../vuex/profile/types';
+    import { ProfileState, User } from '../store/profile/types';
     const namespace: string = 'profile';
 
     @Component

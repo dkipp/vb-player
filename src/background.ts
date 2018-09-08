@@ -1,12 +1,15 @@
 'use strict';
 
-import { app, protocol, BrowserWindow } from 'electron';
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
+import * as fs from 'fs';
 import { format as formatUrl } from 'url';
 import {
   createProtocol,
   installVueDevtools,
 } from 'vue-cli-plugin-electron-builder/lib';
+
+
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
@@ -15,12 +18,14 @@ let mainWindow: any;
 // Standard scheme must be registered before the app is ready
 protocol.registerStandardSchemes(['app'], { secure: true });
 function createMainWindow() {
-  const window = new BrowserWindow();
+  const window = new BrowserWindow({webPreferences: {webSecurity: false}});
 
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
     window.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
-    if (!process.env.IS_TEST) { window.webContents.openDevTools(); }
+    if (!process.env.IS_TEST) {
+      window.webContents.openDevTools();
+    }
   } else {
     createProtocol('app');
     //   Load the index.html when not in development
@@ -69,4 +74,15 @@ app.on('ready', async () => {
     await installVueDevtools();
   }
   mainWindow = createMainWindow();
+});
+
+ipcMain.on('open-file-dialog', (event: Electron.IpcMessageEvent, { path }: { path: string }) => {
+
+  const files = dialog.showOpenDialog({ properties: [ 'openFile']});
+
+  if (files) {
+    // files.forEach(app.addRecentDocument);
+    // win.send('add-to-playlist', files);
+    event.sender.send('fileData', files);
+  }
 });

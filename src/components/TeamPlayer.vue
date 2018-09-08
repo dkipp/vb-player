@@ -7,19 +7,26 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
-import { CuesState, Cue } from '../vuex/cues/types';
-import { Event } from 'electron';
+import { TaggingState, Tag } from '../store/tagging/types';
+
+import {ipcRenderer} from 'electron';
 
 @Component
 export default class TeamPlayer extends Vue {
-  // @State('cues') public cues!: CuesState;
-  @Getter('activeTrackCues', { namespace: 'cues' })  public activeTrackCues!: any;
-  @Action('setCurrentCueIds', { namespace: 'cues' })  public setCurrentCueIds!: any;
+  @State('tagging') public tagging!: TaggingState;
+  @Action('setCurrentTagIds', { namespace: 'tagging' })  public setCurrentTagIds!: any;
 
-  @Watch('activeTrackCues')
-  public onActiveTrackCuesChanged(val: Cue[], oldVal: Cue[]) {
-    // console.log('onActiveTrackCuesChanged');
+  @Watch('tagging.tags')
+  public onActiveTrackCuesChanged(val: Tag[], oldVal: Tag[]) {
     this.updateCues();
+  }
+
+  public mounted() {
+    ipcRenderer.on('fileData', (event: any, files: any) => {
+      // tslint:disable-next-line:no-console
+      //  console.log(event, files);
+      this.videoElement.src = files[0];
+    });
   }
 
   get videoElement(): HTMLVideoElement {
@@ -46,7 +53,7 @@ export default class TeamPlayer extends Vue {
       list.push( activeCues[i].id );
     }
 
-    this.setCurrentCueIds(list);
+    this.setCurrentTagIds(list);
   }
 
   protected addTrack() {
@@ -78,16 +85,20 @@ export default class TeamPlayer extends Vue {
     // const trackElement = this.$refs.trackElement as HTMLTrackElement;
     // const textTrack = trackElement.track;
 
+    if (!this.videoElement.duration) {
+      return;
+    }
+
     // clear cues, how?
     this.removeTrack();
     const textTrack = this.addTrack();
 
     // add cues: textTrack.addCue(cue);
-    this.activeTrackCues.forEach((cue: Cue) => {
-      const start = cue.time * this.videoElement.duration;
+    this.tagging.tags.forEach((tag: Tag) => {
+      const start = tag.time * this.videoElement.duration;
       const end = start + 0.5;
-      const vttCue = new (window as any).VTTCue(start, end, cue.id);
-      vttCue.id = cue.id;
+      const vttCue = new (window as any).VTTCue(start, end, tag.id);
+      vttCue.id = tag.id;
       textTrack.track.addCue(vttCue);
     });
   }

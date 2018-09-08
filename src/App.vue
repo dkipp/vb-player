@@ -7,7 +7,9 @@
       <router-link to="/about"><i class="material-icons">info</i></router-link>
       <router-link to="/player"><i class="material-icons">video_library</i></router-link>
     </div>
-    <div id="toolbar" class="panel"></div>
+    <div id="toolbar" class="panel">
+      <button @click="onOpenVideo">Open File</button>
+    </div>
     <router-view id="content" class="panel"></router-view>
     <div id="right" class="panel">
       <active-cues></active-cues>
@@ -21,6 +23,8 @@
   import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
   import ActiveCues from '@/components/ActiveCues.vue';
   import { MenuItem } from '@/types';
+
+  import {ipcRenderer} from 'electron';
 
   @Component({
     components: {
@@ -41,6 +45,10 @@
         {icon: 'video_library', title: 'item 3', route: '/player'},
         // {icon: 'video_library', title: 'item 4'},
       ];
+    }
+
+    public onOpenVideo() {
+      ipcRenderer.send('open-file-dialog', 'true');
     }
   }
 </script>

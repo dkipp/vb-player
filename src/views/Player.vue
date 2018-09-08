@@ -2,7 +2,7 @@
   <div class="player">
     <div id="container">
       <!--video :id="playerUniqId" ref="videoElementID" src="../assets/vid/film.webm" @wheel="skrubb"></video-->
-      <team-player /> 
+      <team-player id="teamPlayer" /> 
       <br />
       <video-controls></video-controls>
       <vue-slider ref="slider" :height="5" :dot-size="13" v-model="sliderValue" @drag-start="onDragStart" @drag-end="onDragEnd" :tooltip="false"></vue-slider>
@@ -266,6 +266,11 @@
 #container {
   display: flex;
   flex-direction: column;
+}
+
+#teamPlayer {
+  width: 100%;
+  object-fit: contain;
 }
 
 #trackview {
