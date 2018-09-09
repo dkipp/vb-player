@@ -1,0 +1,45 @@
+{
+  "version": "0.0.1",
+  "player": null,
+  "profile": {
+    "user": {
+      "firstName": "Daniel",
+      "lastName": "Kipp",
+      "email": "mail@server.com"
+    },
+    "error": false
+  },
+  "projects": [
+    {
+      "path": "path/to.vid",
+      "name": "TSV A : TSV B",
+      "tags": [],
+      "filter": []
+    }
+  ],
+  "tagging": {
+    "tags": [
+      { "id": "62a6gldowu", "time": 0.7872238241936795, "data": 181832952 },
+      { "id": "dppdhn10mp", "time": 0.36013369903396253, "data": 1652409043 },
+      { "id": "f1vq0vs5nw", "time": 0.21703151692995126, "data": -2030617429 },
+      { "id": "m9o4kkuz0p", "time": 0.08632501095283618, "data": 500558618 },
+      { "id": "8zjqzbedng", "time": 0.7541079603466121, "data": 1747774128 },
+      { "id": "1vp73g1dvx", "time": 0.10377117652935164, "data": 1414317546 },
+      { "id": "9avhagn11q", "time": 0.10035223861238851, "data": -1318563067 },
+      { "id": "ziho0qn0g8", "time": 0.22395629806630035, "data": 1443032387 },
+      { "id": "4m2gf3e0be", "time": 0.6366020871720455, "data": -1282396675 },
+      { "id": "w0xyoiwz5p", "time": 0.9711559867619537, "data": -389914883 },
+      { "id": "a37xjzwxem", "time": 0.9710124654796344, "data": 1901384798 },
+      { "id": "dhbhnkmaym", "time": 0.9175562977069434, "data": 1906883845 },
+      { "id": "yh8ajbrws5", "time": 0.9012569932077397, "data": 1408992771 },
+      { "id": "60rcfd0nfe", "time": 0.5805124671665127, "data": 1893137629 },
+      { "id": "w2l3egvv91", "time": 0.24277146480087053, "data": 1597397203 },
+      { "id": "12nprx3r8m", "time": 0.005139372815096577, "data": -964614977 },
+      { "id": "rwh28eh7ty", "time": 0.7304662663108217, "data": 2024096749 },
+      { "id": "50lsb6q5c3", "time": 0.6973403306064414, "data": -1382647327 },
+      { "id": "4u7hvir1mz", "time": 0.31614473559782397, "data": 1633070851 },
+      { "id": "03gah436cd", "time": 0.9079587597227556, "data": -962198659 }
+    ],
+    "currentTagIds": []
+  }
+}
